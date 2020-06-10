@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+['admin', 'driver', 'customer'].each do |role|
+  Role.create(name: role)
+end
+
+puts "Database seeded succesfully!"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_09_191936) do
+ActiveRecord::Schema.define(version: 2020_06_10_054347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,8 +44,10 @@ ActiveRecord::Schema.define(version: 2020_06_09_191936) do
     t.string "street_address"
     t.string "interior"
     t.integer "zip_code"
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -54,17 +56,32 @@ ActiveRecord::Schema.define(version: 2020_06_09_191936) do
     t.index ["jti"], name: "index_jwt_denylist_on_jti"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "routes", force: :cascade do |t|
+    t.bigint "location_a_id", null: false
+    t.bigint "location_b_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_a_id"], name: "index_routes_on_location_a_id"
+    t.index ["location_b_id"], name: "index_routes_on_location_b_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "encrypted_password", null: false
     t.bigint "role_id"
-    t.bigint "address_id"
     t.string "name"
     t.string "last_name"
     t.string "second_last_name"
@@ -75,7 +92,6 @@ ActiveRecord::Schema.define(version: 2020_06_09_191936) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["address_id"], name: "index_users_on_address_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"

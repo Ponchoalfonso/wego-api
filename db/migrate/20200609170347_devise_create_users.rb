@@ -9,7 +9,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
 
       ## User information
       t.references :role
-      t.references :address
       t.string :name
       t.string :last_name
       t.string :second_last_name

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_one :address
+  belongs_to :role
   # devise :database_authenticatable, :registerable,
   #        :recoverable, :rememberable, :validatable
   devise :database_authenticatable, :registerable,

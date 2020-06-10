@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :routes
+  resources :locations
   devise_for :users,
              path: '',
              path_names: {
