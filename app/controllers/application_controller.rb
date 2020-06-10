@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  before_action :authenticate_user!
+  
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource
@@ -19,4 +21,15 @@ class ApplicationController < ActionController::API
       ]
     }, status: :bad_request
   end
+
+  protected
+    def application_type
+      request.headers['Application']
+    end
+
+    def admin_only
+      if current_user&.role.name != 'admin'
+        head(403)
+      end
+    end
 end
