@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :rides, through: :passengers
   has_many :routes, through: :rides, :foreign_key => 'user_owner_id'
   has_one :vehicle
+  has_many :passengers_ratings, :class_name => 'Rating', :foreign_key => 'user_passenger_id'
+  has_many :ratings, :class_name => 'Rating', :foreign_key => 'user_owner_id'
   # devise :database_authenticatable, :registerable,
   #        :recoverable, :rememberable, :validatable
   devise :database_authenticatable, :registerable,
@@ -16,7 +18,16 @@ class User < ApplicationRecord
     { 
       'id' => self.id,
       'email' => self.email,
-      'full_name' => "#{self.name} #{self.last_name} #{self.second_last_name} ".strip!
+      'full_name' => self.full_name
     }
+  end
+
+  def full_name
+    "#{self.name} #{self.last_name} #{self.second_last_name} ".strip!
+  end
+
+  def total_rating
+    rating = self.ratings.average(:score)
+    rating.nil? ? 0 : rating
   end
 end

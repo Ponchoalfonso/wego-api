@@ -96,6 +96,8 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.8.3)
       concurrent-ruby (~> 1.0)
+    jbuilder (2.9.1)
+      activesupport (>= 4.2.0)
     jwt (2.2.1)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -194,6 +196,7 @@ DEPENDENCIES
   devise-jwt
   dotenv-rails
   geokit-rails
+  jbuilder (~> 2.7)
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)

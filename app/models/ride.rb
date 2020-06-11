@@ -3,6 +3,7 @@ class Ride < ApplicationRecord
   belongs_to :route
   has_many :passengers
   has_many :users, through: :passengers
+  has_many :drop_points, through: :route
 
   def occupied_seats
     passengers = self.passengers

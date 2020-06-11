@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  post '/app/rides/search', to: 'user_rides#search'
-
+  resources :ratings
   resources :vehicles
   resources :passengers
   resources :rides
@@ -8,6 +7,8 @@ Rails.application.routes.draw do
   resources :routes
   resources :locations
   resources :roles
+
+  post '/app/rides/search', to: 'user_rides#search'
 
   # devise_for :users
   devise_for :users,
