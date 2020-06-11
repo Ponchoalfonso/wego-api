@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate_user!
+  before_action :authenticate_user!#, :admin_only
   
   def render_resource(resource)
     if resource.errors.empty?

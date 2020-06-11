@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2020_06_11_015622) do
     t.datetime "scheduled_datetime"
     t.datetime "departure_datetime"
     t.datetime "finished_datetime"
-    t.boolean "finished"
+    t.boolean "finished", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["route_id"], name: "index_rides_on_route_id"
