@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ride: one
+  user: one
+  drop_point: one
+  reserved_seats: 1
+
+two:
+  ride: two
+  user: two
+  drop_point: two
+  reserved_seats: 1

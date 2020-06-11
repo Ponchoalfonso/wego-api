@@ -9,6 +9,8 @@ class RegistrationsController < Devise::RegistrationsController
       resource.role = Role.where(name: 'customer').take
     elsif application_type == 'Drivers'
       resource.role = Role.where(name: 'driver').take
+    else
+      return head(400)
     end
 
     resource.save

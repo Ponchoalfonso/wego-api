@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :vehicles
+  resources :passengers
+  resources :rides
+  resources :drop_points
   resources :routes
   resources :locations
   devise_for :users,

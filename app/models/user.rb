@@ -2,6 +2,11 @@ class User < ApplicationRecord
   has_one :address
   belongs_to :role
   has_one_attached :profile_picture
+  has_many :owned_rides, :class_name => 'Ride', :foreign_key => 'user_owner_id'
+  has_many :passengers
+  has_many :rides, through: :passengers
+  has_many :routes, through: :rides, :foreign_key => 'user_owner_id'
+  has_one :vehicle
   # devise :database_authenticatable, :registerable,
   #        :recoverable, :rememberable, :validatable
   devise :database_authenticatable, :registerable,
