@@ -44,3 +44,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Handle users
 gem 'devise-jwt'
+
+# Handle geographic locations
+gem 'geokit-rails'

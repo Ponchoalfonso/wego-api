@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 2020_06_11_015622) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.decimal "latitude"
-    t.decimal "longitude"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

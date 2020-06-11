@@ -88,6 +88,10 @@ GEM
       concurrent-ruby (~> 1.0)
     erubi (1.9.0)
     ffi (1.13.0)
+    geokit (1.13.1)
+    geokit-rails (2.3.1)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.3)
@@ -189,6 +193,7 @@ DEPENDENCIES
   byebug
   devise-jwt
   dotenv-rails
+  geokit-rails
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
