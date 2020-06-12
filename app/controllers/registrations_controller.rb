@@ -1,5 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, :admin_only
   
   respond_to :json
 
@@ -10,7 +10,7 @@ class RegistrationsController < Devise::RegistrationsController
     elsif application_type == 'Drivers'
       resource.role = Role.where(name: 'driver').take
     else
-      return head(400)
+      return head 400
     end
 
     resource.save

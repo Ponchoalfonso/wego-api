@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :roles
 
   post '/app/rides/search', to: 'user_rides#search'
+  post '/app/rides', to: 'user_rides#create'
 
   # devise_for :users
   devise_for :users,
