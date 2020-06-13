@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :application_only
+  before_action :driver_only, only: [:routes]
   skip_before_action :admin_only
 
   def show
@@ -13,6 +14,14 @@ class ProfilesController < ApplicationController
       render :show
     else
       render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  def routes
+    @routes = current_user.routes
+
+    if @routes.length == 0
+      render json: { message: 'No routes were found for this user!' }, status: :not_found
     end
   end
 

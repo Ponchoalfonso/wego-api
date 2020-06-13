@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   put 'app/profile', to: 'profiles#update'
   patch 'app/profile', to: 'profiles#update'
 
+  get '/app/profile/routes', to: 'profiles#routes'
+
   get '/app/profile/address', to: 'user_addresses#show'
   post '/app/profile/address', to: 'user_addresses#create'
   put '/app/profile/address', to: 'user_addresses#update'
