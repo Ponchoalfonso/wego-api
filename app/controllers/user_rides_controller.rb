@@ -182,6 +182,29 @@ class UserRidesController < ApplicationController
   end
 
   def rate
+    if rate_params[:rate].nil? or (rate_params[:rate] > 5 and rate_params[:rate] < 0)
+      return head :bad_request
+    end
+
+    ride = Ride.find(params[:id])
+    if !ride.finished
+      return render json: { message: 'Ride hasn\'t ended'}, status: :bad_request
+    end
+
+    @rate = Rating.where(user_passenger: current_user, user_owner: ride.user_owner).first
+
+    if @rate.nil?
+      @rate = Rating.create(
+        user_passenger: current_user,
+        user_owner: ride.user_owner,
+        score: rate_params[:rate]
+      )
+    else
+      @rate.update(score: rate_params[:rate])
+    end
+
+    render json: { message: "You rated #{ride.user_owner.name}with #{@rate.score} stars!" }, status: :ok
+
   end
 
   private
@@ -200,7 +223,7 @@ class UserRidesController < ApplicationController
     end
 
     def rate_params
-      params.permit(:rate)
+      params.permit(:id, :rate)
     end
 
     def reserve_params
