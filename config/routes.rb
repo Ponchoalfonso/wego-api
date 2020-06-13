@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   get '/app/rides/:id', to: 'user_rides#show'
   post '/app/rides/search', to: 'user_rides#search'
   post '/app/rides', to: 'user_rides#create'
+  post '/app/rides/:id/reserve', to: 'user_rides#reserve'
+  post '/app/rides/:id/rate', to: 'user_rides#rate'
 
   get '/app/vehicles', to: 'user_vehicles#show'
   post '/app/vehicles', to: 'user_vehicles#create'

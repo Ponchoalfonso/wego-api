@@ -6,7 +6,7 @@ json.array! @rides do |ride|
   if !@destination.nil?
     desired_drop = ride.drop_points.joins(:location).merge(
       Location.within(@destination_radius, origin: [@destination[:latitude], @destination[:longitude]])
-    ).take.location
+    ).first
   elsif current_user.reserved_ride?(ride)
     desired_drop = ride.passengers.where(user: current_user).drop_point.take.location
   end
@@ -23,7 +23,8 @@ json.array! @rides do |ride|
     end
     if !desired_drop.nil?
       json.desired_drop_point do
-        json.extract! desired_drop, :latitude, :longitude
+        json.id desired_drop.id
+        json.extract! desired_drop.location, :latitude, :longitude
       end
     end
   end

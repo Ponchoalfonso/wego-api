@@ -3,12 +3,18 @@ json.ride do
   vehicle = nil
   passengers = nil
   desired_drop_point = nil
+  reserved = nil
+  my_seats = nil
 
   from = @ride.route.location_a
   to = @ride.route.location_b
 
   if @app_type == 'Customers'
      vehicle = @ride.user_owner.vehicle
+     reserved = @ride.passengers.where(user: current_user).length > 0
+     if reserved
+       my_seats = @ride.passengers.where(user: current_user).first.reserved_seats
+     end
   elsif @app_type == 'Drivers'
     passengers = @ride.passengers
   end
@@ -20,6 +26,8 @@ json.ride do
   end
 
   json.id @ride.id
+  json.reserved reserved
+  json.my_seats my_seats
   json.total_seats @ride.seats
   json.occupied_seats @ride.occupied_seats
   json.available_seats @ride.available_seats

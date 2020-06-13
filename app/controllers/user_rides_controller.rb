@@ -1,6 +1,7 @@
 class UserRidesController < ApplicationController
   before_action :application_only
   before_action :driver_only, only: [:create]
+  before_action :customer_only, only: [:reserve, :rate]
   skip_before_action :admin_only
 
   def index
@@ -144,6 +145,45 @@ class UserRidesController < ApplicationController
     end
   end
 
+  def reserve
+    ride = Ride.where(finished: false, id: params[:id]).first
+
+    if !ride.nil?
+      if ride.passengers.where(user: current_user).length != 1
+        if !reserve_params[:drop_point_id].nil?
+          drop = ride.drop_points.where(id: params[:drop_point_id]).first
+          seats = 1
+          if !reserve_params[:seats].nil?
+            seats = reserve_params[:seats]
+          end
+
+          if seats > ride.seats
+            return head :forbidden
+          end
+          if !drop.nil?
+            ride.passengers << Passenger.create(
+              user: current_user,
+              drop_point: drop,
+              reserved_seats: seats
+            )
+            render json: { message: 'Success!' }, status: :ok
+          else
+            render json: { message: 'The provided drop point doesn\'t belong to the given ride!'}, status: :bad_request
+          end
+        else
+          render json: { message: 'Provide a drop point!' }, status: :bad_request
+        end
+      else
+        render json: { message: 'You already have a reservation on this ride!'}, status: :forbidden
+      end
+    else
+      render json: { message: 'Ride not found!' }, status: :not_found
+    end
+  end
+
+  def rate
+  end
+
   private
     def search_params
       params.require(:search).permit(
@@ -157,5 +197,13 @@ class UserRidesController < ApplicationController
 
     def ride_params
       params.require(:ride).permit(:scheduled_datetime, :seats, route: {})
+    end
+
+    def rate_params
+      params.permit(:rate)
+    end
+
+    def reserve_params
+      params.permit(:id, :drop_point_id, :seats)
     end
 end
