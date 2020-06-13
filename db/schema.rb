@@ -86,12 +86,12 @@ ActiveRecord::Schema.define(version: 2020_06_11_213426) do
 
   create_table "ratings", force: :cascade do |t|
     t.integer "score", limit: 2
-    t.bigint "user_owner_id_id", null: false
-    t.bigint "user_passanger_id_id", null: false
+    t.bigint "user_owner_id", null: false
+    t.bigint "user_passanger_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_owner_id_id"], name: "index_ratings_on_user_owner_id_id"
-    t.index ["user_passanger_id_id"], name: "index_ratings_on_user_passanger_id_id"
+    t.index ["user_owner_id"], name: "index_ratings_on_user_owner_id"
+    t.index ["user_passanger_id"], name: "index_ratings_on_user_passanger_id"
   end
 
   create_table "rides", force: :cascade do |t|

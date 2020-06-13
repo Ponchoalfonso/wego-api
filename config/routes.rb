@@ -29,6 +29,11 @@ Rails.application.routes.draw do
   post '/app/rides/:id/reserve', to: 'user_rides#reserve'
   post '/app/rides/:id/rate', to: 'user_rides#rate'
 
+  get '/app/rides/:id/start', to: 'user_rides#start'
+  get '/app/rides/:id/finish', to: 'user_rides#finish'
+  get '/app/rides/:id/started', to: 'user_rides#started'
+  get '/app/rides/:id/finished', to: 'user_rides#finished'
+
   get '/app/vehicles', to: 'user_vehicles#show'
   post '/app/vehicles', to: 'user_vehicles#create'
   put '/app/vehicles', to: 'user_vehicles#update'

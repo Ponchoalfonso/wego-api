@@ -1,6 +1,6 @@
 class UserRidesController < ApplicationController
   before_action :application_only
-  before_action :driver_only, only: [:create]
+  before_action :driver_only, only: [:create, :start, :end]
   before_action :customer_only, only: [:reserve, :rate]
   skip_before_action :admin_only
 
@@ -205,6 +205,38 @@ class UserRidesController < ApplicationController
 
     render json: { message: "You rated #{ride.user_owner.name}with #{@rate.score} stars!" }, status: :ok
 
+  end
+
+  def start
+    @ride = Ride.find(params[:id])
+
+    if !@ride.finished and @ride.user_owner == current_user and @ride.departure_datetime.nil?
+      @ride.update(departure_datetime: DateTime.now)
+      render json: { message: 'Ride has started' }, status: :ok
+    else
+      head :forbidden
+    end
+  end
+
+  def finish
+    @ride = Ride.find(params[:id])
+
+    if !@ride.finished and @ride.user_owner == current_user
+      @ride.update(finished_datetime: DateTime.now, finished: true)
+      render json: { message: 'Ride has finished' }, status: :ok
+    else
+      head :forbidden
+    end
+  end
+
+  def started
+    @ride = Ride.find(params[:id])
+    render json: { started: !@ride.departure_datetime.nil? }, status: :ok
+  end
+
+  def finished
+    @ride = Ride.find(params[:id])
+    render json: { finished: @ride.finished }, status: :ok
   end
 
   private
