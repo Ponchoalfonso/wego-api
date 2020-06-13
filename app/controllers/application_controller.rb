@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :admin_only, except: [:index]
   
+  def index
+    render json: {welcome: 'WeGo!:API'}, status: :ok
+  end
+
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource
@@ -29,7 +33,25 @@ class ApplicationController < ActionController::API
 
     def admin_only
       if current_user&.role.name != 'admin'
-        head(403)
+        head 403
+      end
+    end
+
+    def driver_only
+      if application_type != 'Drivers'
+        head 400
+      end
+    end
+
+    def customer_only
+      if application_type != 'Customers'
+        head 400
+      end
+    end
+
+    def application_only
+      if application_type != 'Customers' and application_type != 'Drivers' and application_type != 'Admins'
+        head 400
       end
     end
 end

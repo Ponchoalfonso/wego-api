@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, :admin_only
 
   respond_to :json
 

@@ -46,6 +46,6 @@ class AddressesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def address_params
-      params.require(:address).permit(:country, :state, :city, :suburb, :street_address, :interior, :zip_code)
+      params.require(:address).permit(:user_id, :country, :state, :city, :suburb, :street_address, :interior, :zip_code)
     end
 end

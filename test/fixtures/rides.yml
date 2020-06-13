@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_owner: one
+  route: one
+  total_price: 9.99
+  seats: 1
+  scheduled_datetime: 2020-06-10 19:12:01
+  departure_datetime: 2020-06-10 19:12:01
+  finished_datetime: 2020-06-10 19:12:01
+  finished: false
+
+two:
+  user_owner: two
+  route: two
+  total_price: 9.99
+  seats: 1
+  scheduled_datetime: 2020-06-10 19:12:01
+  departure_datetime: 2020-06-10 19:12:01
+  finished_datetime: 2020-06-10 19:12:01
+  finished: false

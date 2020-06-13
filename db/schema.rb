@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_054347) do
+ActiveRecord::Schema.define(version: 2020_06_11_213426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 2020_06_10_054347) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
+  create_table "drop_points", force: :cascade do |t|
+    t.bigint "route_id", null: false
+    t.bigint "location_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_drop_points_on_location_id"
+    t.index ["route_id"], name: "index_drop_points_on_route_id"
+  end
+
   create_table "jwt_denylist", force: :cascade do |t|
     t.string "jti", null: false
     t.datetime "exp", null: false
@@ -57,10 +66,47 @@ ActiveRecord::Schema.define(version: 2020_06_10_054347) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.decimal "latitude"
-    t.decimal "longitude"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "passengers", force: :cascade do |t|
+    t.bigint "ride_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "drop_point_id", null: false
+    t.integer "reserved_seats", limit: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["drop_point_id"], name: "index_passengers_on_drop_point_id"
+    t.index ["ride_id"], name: "index_passengers_on_ride_id"
+    t.index ["user_id"], name: "index_passengers_on_user_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer "score", limit: 2
+    t.bigint "user_owner_id", null: false
+    t.bigint "user_passanger_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_owner_id"], name: "index_ratings_on_user_owner_id"
+    t.index ["user_passanger_id"], name: "index_ratings_on_user_passanger_id"
+  end
+
+  create_table "rides", force: :cascade do |t|
+    t.bigint "user_owner_id", null: false
+    t.bigint "route_id", null: false
+    t.decimal "total_price"
+    t.integer "seats", limit: 2
+    t.datetime "scheduled_datetime"
+    t.datetime "departure_datetime"
+    t.datetime "finished_datetime"
+    t.boolean "finished", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["route_id"], name: "index_rides_on_route_id"
+    t.index ["user_owner_id"], name: "index_rides_on_user_owner_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -97,5 +143,23 @@ ActiveRecord::Schema.define(version: 2020_06_10_054347) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  create_table "vehicles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "brand", limit: 20
+    t.string "model", limit: 80
+    t.string "plate_code", limit: 14
+    t.string "color", limit: 10
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_vehicles_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "drop_points", "locations"
+  add_foreign_key "drop_points", "routes"
+  add_foreign_key "passengers", "drop_points"
+  add_foreign_key "passengers", "rides"
+  add_foreign_key "passengers", "users"
+  add_foreign_key "rides", "routes"
+  add_foreign_key "vehicles", "users"
 end
