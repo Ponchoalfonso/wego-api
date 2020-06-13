@@ -11,6 +11,15 @@ Rails.application.routes.draw do
   resources :locations
   resources :roles
 
+  get '/app/profile', to: 'profiles#show'
+  put 'app/profile', to: 'profiles#update'
+  patch 'app/profile', to: 'profiles#update'
+
+  get '/app/profile/address', to: 'user_addresses#show'
+  post '/app/profile/address', to: 'user_addresses#create'
+  put '/app/profile/address', to: 'user_addresses#update'
+  patch '/app/profile/address', to: 'user_addresses#update'
+
   get '/app/rides', to: 'user_rides#index'
   get '/app/rides/:id', to: 'user_rides#show'
   post '/app/rides/search', to: 'user_rides#search'

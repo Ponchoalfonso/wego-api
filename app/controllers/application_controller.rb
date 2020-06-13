@@ -48,4 +48,10 @@ class ApplicationController < ActionController::API
         head 400
       end
     end
+
+    def application_only
+      if application_type != 'Customers' and application_type != 'Drivers' and application_type != 'Admins'
+        head 400
+      end
+    end
 end

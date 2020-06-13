@@ -16,7 +16,7 @@ class UserVehiclesController < ApplicationController
     if current_user.vehicle.nil?
       @vehicle.user = current_user
       if @vehicle.save
-        render :show, status: :created, location: @vehicle
+        render :show, status: :created
       else
         render json: @vehicle.errors, status: :unprocessable_entity
       end
@@ -29,7 +29,7 @@ class UserVehiclesController < ApplicationController
     @vehicle = current_user.vehicle
 
     if @vehicle.nil?
-      head 404
+      return head 404
     end
 
     if @vehicle.update(vehicle_params)

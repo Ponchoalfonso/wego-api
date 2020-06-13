@@ -1,4 +1,5 @@
 class UserRidesController < ApplicationController
+  before_action :application_only
   before_action :driver_only, only: [:create]
   skip_before_action :admin_only
 
