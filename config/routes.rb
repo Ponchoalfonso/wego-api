@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  root to: 'application#index'
+  get 'app', to: 'application#index'
+
   resources :ratings
   resources :vehicles
   resources :passengers
@@ -12,6 +15,11 @@ Rails.application.routes.draw do
   get '/app/rides/:id', to: 'user_rides#show'
   post '/app/rides/search', to: 'user_rides#search'
   post '/app/rides', to: 'user_rides#create'
+
+  get '/app/vehicles', to: 'user_vehicles#show'
+  post '/app/vehicles', to: 'user_vehicles#create'
+  put '/app/vehicles', to: 'user_vehicles#update'
+  patch '/app/vehicles', to: 'user_vehicles#update'
 
   # devise_for :users
   devise_for :users,

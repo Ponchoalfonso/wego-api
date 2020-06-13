@@ -60,10 +60,12 @@ class UserRidesController < ApplicationController
 
   def show
     @app_type = application_type
-    if @app_type == 'Drivers'
+    if @app_type == 'Drivers' or @app_type == 'Admins'
       @ride = Ride.where(user_owner: current_user).find(params[:id])
     elsif @app_type == 'Customers'
       @ride = Ride.find(params[:id])
+    else
+      head 403
     end
   end
 

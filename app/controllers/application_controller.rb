@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate_user!, :admin_only
+  before_action :authenticate_user!, :admin_only, except: [:index]
   
+  def index
+    render json: {welcome: 'WeGo!:API'}, status: :ok
+  end
+
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource
