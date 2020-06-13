@@ -2,6 +2,20 @@ class UserRidesController < ApplicationController
   before_action :driver_only, only: [:create]
   skip_before_action :admin_only
 
+  def index
+    @app_type = application_type
+    
+    if application_type == 'Drivers'
+      @rides = current_user.owned_rides
+    elsif application_type == 'Customers'
+      @rides = current_user.rides
+    end
+
+    if @rides&.length < 1
+      head 404
+    end
+  end
+
   def search
     # Get search elements
     @origin_radius = search_params[:origin_radius].nil? ? 0.3 : search_params[:origin_radius]
@@ -41,7 +55,16 @@ class UserRidesController < ApplicationController
       end
     end
 
-    render :search, status: :ok
+    render :index, status: :ok
+  end
+
+  def show
+    @app_type = application_type
+    if @app_type == 'Drivers'
+      @ride = Ride.where(user_owner: current_user).find(params[:id])
+    elsif @app_type == 'Customers'
+      @ride = Ride.find(params[:id])
+    end
   end
 
   def create

@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :locations
   resources :roles
 
+  get '/app/rides', to: 'user_rides#index'
+  get '/app/rides/:id', to: 'user_rides#show'
   post '/app/rides/search', to: 'user_rides#search'
   post '/app/rides', to: 'user_rides#create'
 

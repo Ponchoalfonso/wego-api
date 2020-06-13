@@ -30,4 +30,16 @@ class User < ApplicationRecord
     rating = self.ratings.average(:score)
     rating.nil? ? 0 : rating
   end
+
+  def reserved_ride?(ride)
+    self.rides.include?(ride)
+  end
+
+  def profile_picture_url
+    if self.profile_picture.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(self.profile_picture, only_path: true)
+    else
+      nil
+    end
+  end
 end
